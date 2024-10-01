@@ -24,6 +24,11 @@ server.get('/auth', {
     // it even works for wildcards
     //reply.code(404).send({ error: 'Not found' })
 });
+server.get('/users/:userId', async (request, reply) => {
+    const userId = request.params.userId;
+    console.log(`you are requesting userId: ${userId}`);
+    reply.code(200).send({ success: true, message: `requested userID: ${userId}`, test: '123' });
+});
 server.listen({ port: 8080 }, (err, address) => {
     if (err) {
         console.log(err);

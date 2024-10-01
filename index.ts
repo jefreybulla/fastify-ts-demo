@@ -6,6 +6,7 @@ server.get('/ping', async(request, reply) => {
     return 'pong\n'
 })
 
+// query string endpoint
 server.get<{
     Querystring: IQuerystring,
     Headers: IHeaders,
@@ -28,6 +29,18 @@ server.get<{
     // it even works for wildcards
     //reply.code(404).send({ error: 'Not found' })
   })
+
+// param endpoint
+server.get<{
+Params: IParams,
+Reply: IReply
+}>('/users/:userId', async (request, reply) => {
+
+    const userId = request.params.userId
+    console.log(`you are requesting userId: ${userId}`)
+    reply.code(200).send({ success: true, message: `requested userID: ${userId}`})
+})
+
 
 server.listen({ port: 8080}, (err, address) => {
     if(err){
