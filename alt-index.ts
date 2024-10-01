@@ -4,18 +4,18 @@ import { Static, Type } from '@sinclair/typebox'
 const server = fastify()
 
 
-const User = Type.Object({
+// with typebox you can declare Json schema and types only once
+const UserSchema = Type.Object({
     name: Type.String(),
     // validate email format
     mail: Type.Optional(Type.String({ format: 'email' })),
 })
-type UserType = Static<typeof User>
+type UserType = Static<typeof UserSchema>
 
-const Reply = Type.Object({
+const ReplySchema = Type.Object({
     success: Type.Boolean()
 })
-
-type ReplyType = Static<typeof Reply>
+type ReplyType = Static<typeof ReplySchema>
 
 server.get('/ping', async(request, reply) => {
     return 'pong\n'
@@ -26,8 +26,8 @@ server.post<{ Body: UserType, Reply: ReplyType}>(
     '/',
     {
       schema: {
-        body: User,
-        response: {200: Reply}
+        body: UserSchema,
+        response: {200: ReplySchema}
       },
     },
     (request, reply) => {
