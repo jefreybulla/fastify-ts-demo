@@ -8,6 +8,7 @@ const server = (0, fastify_1.default)();
 server.get('/ping', async (request, reply) => {
     return 'pong\n';
 });
+// query string endpoint
 server.get('/auth', {
     preValidation: (request, reply, done) => {
         const { username, password } = request.query;
@@ -24,10 +25,11 @@ server.get('/auth', {
     // it even works for wildcards
     //reply.code(404).send({ error: 'Not found' })
 });
+// param endpoint
 server.get('/users/:userId', async (request, reply) => {
     const userId = request.params.userId;
     console.log(`you are requesting userId: ${userId}`);
-    reply.code(200).send({ success: true, message: `requested userID: ${userId}`, test: '123' });
+    reply.code(200).send({ success: true, message: `requested userID: ${userId}` });
 });
 server.listen({ port: 8080 }, (err, address) => {
     if (err) {
